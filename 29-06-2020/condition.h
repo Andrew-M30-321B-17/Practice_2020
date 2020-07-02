@@ -38,7 +38,7 @@ public:
     Condition(Client *client, Ui::MainWindow *ui);
      void changeParams();
      void state(int i);
-     void insertBD();
+     void insertBD(int id);
      void dropTable();
      void truncateTable();
 

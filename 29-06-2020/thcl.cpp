@@ -28,7 +28,7 @@ void thcl::run()
             mutex.lock();
             mutex.tryLock(Car.pause*1000-1000);
             mutex.unlock();
-            Car.insertBD();
+            Car.insertBD(i);
             i++;
             emit send(i);
 
