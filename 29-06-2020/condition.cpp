@@ -5,7 +5,7 @@ Condition::Condition(Client * client, Ui::MainWindow * ui)
     this->client = client;
     this->ui = ui;
     client->Execute("CREATE DATABASE IF NOT EXISTS Practice");
-    client->Execute("CREATE TABLE IF NOT EXISTS Practice.condition (id UInt64, timest TimeStamp, tempIn UInt64, tempOut UInt64, xPos UInt64, yPos UInt64, speed UInt64, acceleraton UInt64,fuel UInt64, conditioner UInt64, refueling UInt64, lendhtWay UInt64) ENGINE = Memory");
+    client->Execute("CREATE TABLE IF NOT EXISTS Practice.condition (id UInt64, timest TimeStamp, tempIn UInt64, tempOut UInt64, xPos UInt64, yPos UInt64, speed UInt64, acceleration UInt64,fuel UInt64, conditioner UInt64, refueling UInt64, lengthWay UInt64) ENGINE = Memory");
     tempIn = ui->lineEdit->text().toInt();
     tempOut = ui->lineEdit_2->text().toInt();
     xPos = ui->lineEdit_3->text().toInt();
@@ -17,7 +17,6 @@ Condition::Condition(Client * client, Ui::MainWindow * ui)
     lengthWay = ui->lineEdit_8->text().toInt();
     pause = ui->lineEdit_9->text().toInt();
 
-    //repeat();
 }
 
 
@@ -104,8 +103,8 @@ void Condition::insertBD(){
     b.AppendColumn("speed", speedCol);
     b.AppendColumn("acceleration"  , accelerationCol);
     b.AppendColumn("fuel", fuelCol);
-    b.AppendColumn("refuling", refulingCol);
-    b.AppendColumn("lenghtWay"  , lengthWayCol);
+    b.AppendColumn("refueling", refulingCol);
+    b.AppendColumn("lengthWay"  , lengthWayCol);
     b.AppendColumn("conditioner"  , conditionerCol);
 
     client->Insert("Practice.condition", b);
@@ -113,7 +112,7 @@ void Condition::insertBD(){
 
 void Condition::dropTable(){
 
-     client->Execute("DROP TABLE IF EXIST Practice.condition");
+     client->Execute("DROP TABLE IF EXISTS Practice.condition");
 }
 void Condition::truncateTable(){
 
