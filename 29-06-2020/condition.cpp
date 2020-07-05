@@ -5,7 +5,7 @@ Condition::Condition(Client * client, Ui::MainWindow * ui)
     this->client = client;
     this->ui = ui;
     client->Execute("CREATE DATABASE IF NOT EXISTS Practice");
-    client->Execute("CREATE TABLE IF NOT EXISTS Practice.condition (id UInt64, timest DateTime, tempIn UInt64, tempOut UInt64, xPos UInt64, yPos UInt64, speed UInt64, acceleration UInt64,fuel UInt64, conditioner UInt64, refueling UInt64, lengthWay UInt64, pause UInt64) ENGINE = Memory");
+    client->Execute("CREATE TABLE IF NOT EXISTS Practice.condition (id UInt64, timest DateTime, tempIn UInt64, tempOut UInt64, xPos UInt64, yPos UInt64, speed UInt64, acceleration Int64,fuel UInt64, conditioner UInt64, refueling UInt64, lengthWay UInt64, timeOfWay UInt64) ENGINE = Memory");
     tempIn = ui->lineEdit->text().toInt();
     tempOut = ui->lineEdit_2->text().toInt();
     xPos = ui->lineEdit_3->text().toInt();
@@ -17,6 +17,7 @@ Condition::Condition(Client * client, Ui::MainWindow * ui)
     lengthWay = abs(ui->lineEdit_8->text().toInt());
     pause = ui->lineEdit_9->text().toInt();
     refueling = 0;
+    timeOfWay = 0;
 
 }
 
@@ -51,8 +52,8 @@ void Condition::changeParams(){
     }else{// если бензина нет дожидаемся остановки и начинаем заправку
 
         if(speed > 0){
-            if(acceleration<5)acceleration++;
-            if(speed>=acceleration)speed -=acceleration;else speed =0;
+            acceleration--;
+            if(speed>=abs(acceleration))speed +=acceleration;else speed =0;
 
          }else{
              refueling = 1;
@@ -61,7 +62,7 @@ void Condition::changeParams(){
              speed = 0;
         }
     }
-
+    timeOfWay += pause;
 
 }
 void Condition::insertBD(int id){
@@ -71,8 +72,8 @@ void Condition::insertBD(int id){
     auto idCol = make_shared<ColumnUInt64>();
     idCol->Append(id);
 
-    auto pauseCol = make_shared<ColumnUInt64>();
-    pauseCol->Append(pause);
+    auto timeOfWayCol = make_shared<ColumnUInt64>();
+    timeOfWayCol->Append(timeOfWay);
 
     auto timeCol = make_shared<ColumnDateTime>();
     timeCol->Append(time(NULL));
@@ -89,7 +90,7 @@ void Condition::insertBD(int id){
 
     auto speedCol = make_shared<ColumnUInt64>();
     speedCol->Append(speed);
-    auto accelerationCol = make_shared<ColumnUInt64>();
+    auto accelerationCol = make_shared<ColumnInt64>();
     accelerationCol->Append(acceleration);
 
     auto fuelCol = make_shared<ColumnUInt64>();
@@ -116,7 +117,7 @@ void Condition::insertBD(int id){
     b.AppendColumn("refueling", refulingCol);
     b.AppendColumn("lengthWay"  , lengthWayCol);
     b.AppendColumn("conditioner"  , conditionerCol);
-    b.AppendColumn("pause" , pauseCol);
+    b.AppendColumn("timeOfWay" , timeOfWayCol);
 
 
     client->Insert("Practice.condition", b);

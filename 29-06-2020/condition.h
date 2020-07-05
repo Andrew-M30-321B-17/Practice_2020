@@ -28,7 +28,8 @@ private:
          fuel,
          conditioner,
          refueling,
-         lengthWay;
+         lengthWay,
+         timeOfWay;
 
   Client * client;
   Ui::MainWindow *ui;
