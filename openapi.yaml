@@ -1,0 +1,167 @@
+openapi: 3.0.0
+info:
+  title: MY API IGNATIEV
+  version: 1.0.0
+paths:
+ 
+  /api/run/:
+    get:
+      description: >-
+        start writing into bd
+      responses:
+        '200':
+          description: status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  answer:
+                    type: string
+                    example: "1"
+  
+  
+  /api/stop/:
+    get:
+      description: stop writing into bd
+      responses:
+        '200':
+          description: status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  answer:
+                    type: string
+                    example: "1"
+  /api/drop/:
+    get:
+      description: drop table if exist
+      responses:
+        '200':
+          description: status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  answer:
+                    type: string
+                    example: "1"
+                    
+  /api/trunc/:
+    get:
+      description: truncate table if exist
+      responses:
+        '200':
+          description: status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  answer:
+                    type: string
+                    example: "1"
+  
+  /api/select/:
+    get:
+      description: select * from table if exist
+      responses:
+        '200':
+          description: status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  answer:
+                    type: object
+                    example: "{1:2;2:2}"                  
+
+  /api/add/:
+    get:
+      summary: Add new string into bd
+      parameters:
+        - name: id
+          in: query
+          description: value of id
+          required: true
+          schema:
+            type: integer
+            example: 1
+        - name: timest
+          in: query
+          description: value of current time
+          required: true
+          schema:
+            type: integer
+            example: Wed, 22 Jul 2020 19:33:27 GMT
+        - name: tempIn
+          in: query
+          description: value of temperature in Car
+          required: true
+          schema:
+            type: integer
+            example: 22
+        - name: tempOut
+          in: query
+          description: value of temperature out Car
+          required: true
+          schema:
+            type: integer
+            example: 22
+        - name: speed
+          in: query
+          description: value of car's speed
+          required: true
+          schema:
+            type: integer
+            example: 20
+        - name: acceleration
+          in: query
+          description: value of car's acceleration
+          required: true
+          schema:
+            type: integer
+            example: 5
+        - name: fuel
+          in: query
+          description: value of car's fuel
+          required: true
+          schema:
+            type: integer
+            example: 5
+        - name: conditioner
+          in: query
+          description: status of car's conditioner 
+          required: true
+          schema:
+            type: integer
+            example: 1
+        - name: lengthWay
+          in: query
+          description: length of car's way
+          required: true
+          schema:
+            type: integer
+            example: 50
+        - name: timeOfWay
+          in: query
+          description: value of way's time
+          required: true
+          schema:
+            type: integer
+            example: 5
+      responses:
+        '200':
+          description: status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  answer:
+                    type: string
+                    example: 'INSERT (id ... timeOfWay) VALUES id ... timeOfWay '
